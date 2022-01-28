@@ -1,23 +1,31 @@
 import styled from '@emotion/styled';
-import axios from 'axios';
 import type { NextPage } from 'next';
 import { useState } from 'react';
+import { signIn, signOut, useSession } from 'next-auth/client';
 
-const Signup: NextPage = () => {
+const Signin: NextPage = () => {
+  const [session, loading] = useSession();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (
-    event
-  ) => {
-    event.preventDefault();
-    const result = await createUser(email, password);
+  const handleSignin = async () => {
+    const result = await signIn('credentials', {
+      redirect: false,
+      email,
+      password,
+    });
     console.log('result:', result);
   };
 
+  const handleSignout = async () => {
+    signOut();
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>Signup</h1>
+    <section>
+      <h1>Signin</h1>
+      <p>비밀번호 12345678을 넣으면 로그인 됩니다.</p>
       <div style={{ marginBottom: '10px' }}>
         <TextInput
           value={email}
@@ -32,20 +40,22 @@ const Signup: NextPage = () => {
           placeholder="password"
         />
       </div>
-      <div>
-        <Button type="submit">회원가입</Button>
+      <div style={{ marginBottom: '10px' }}>
+        <Button onClick={handleSignin}>회원가입</Button>
       </div>
-    </form>
-  );
-};
 
-const createUser = async (email: string, password: string) => {
-  try {
-    const response = await axios.post('/api/auth/signup/', { email, password });
-    return response;
-  } catch (error) {
-    return error;
-  }
+      {session && !loading && (
+        <>
+          <div style={{ marginBottom: '10px' }}>{session.user!.email}</div>
+          <div>
+            <Button onClick={handleSignout} style={{ background: 'tomato' }}>
+              로그아웃
+            </Button>
+          </div>
+        </>
+      )}
+    </section>
+  );
 };
 
 const TextInput = styled.input`
@@ -63,4 +73,4 @@ const Button = styled.button`
   border-radius: 10px;
 `;
 
-export default Signup;
+export default Signin;

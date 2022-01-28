@@ -20,8 +20,8 @@ export default async function handler(
     const hasedPassword = await hashPassword(password);
 
     // DB에 저장
-    console.log('savded email:', email);
-    console.log('savded password:', hasedPassword);
+    console.log('saved email:', email);
+    console.log('saved password:', hasedPassword);
 
     res.status(201).json({ message: '사용자를 생성했습니다.' });
   }

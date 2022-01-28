@@ -1,24 +1,17 @@
-import styled from '@emotion/styled';
 import type { NextPage } from 'next';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 const Home: NextPage = () => {
-  const router = useRouter();
-
   return (
     <div>
-      <Button onClick={() => router.push('/signup')}>회원가입</Button>
+      <p>
+        <Link href="/signup">회원가입</Link>
+      </p>
+      <p>
+        <Link href="/signin">로그인</Link>
+      </p>
     </div>
   );
 };
-
-const Button = styled.button`
-  background: dodgerblue;
-  color: white;
-  cursor: pointer;
-  padding: 10px;
-  border: 0;
-  border-radius: 10px;
-`;
 
 export default Home;
