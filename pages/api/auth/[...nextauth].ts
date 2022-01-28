@@ -16,6 +16,7 @@ export default NextAuth({
     jwt: true,
   },
   providers: [
+    // signIn 요청
     Providers.Credentials({
       async authorize(credentials: Credetials) {
         const isValid = await verifyPassword(
@@ -28,7 +29,7 @@ export default NextAuth({
           throw new Error('비밀번호가 틀렸습니다.');
         }
 
-        // jwt로 encoding
+        // jwt로 encoding, 쿠키에 session 추가
         return { email: credentials.email };
       },
     }),
