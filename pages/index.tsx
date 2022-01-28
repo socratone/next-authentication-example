@@ -1,9 +1,11 @@
-import type { NextPage } from 'next';
+import type { GetServerSidePropsContext, NextPage } from 'next';
+import { getSession } from 'next-auth/client';
 import Link from 'next/link';
 
 const Home: NextPage = () => {
   return (
     <div>
+      <h1>홈페이지</h1>
       <p>
         <Link href="/signup">회원가입</Link>
       </p>
@@ -12,6 +14,24 @@ const Home: NextPage = () => {
       </p>
     </div>
   );
+};
+
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  const session = await getSession({ req: context.req });
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/signin',
+      },
+    };
+  }
+
+  return {
+    props: session,
+  };
 };
 
 export default Home;
