@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import type { NextPage } from 'next';
 import { useState } from 'react';
-import { signIn, signOut, useSession } from 'next-auth/client';
+import { signIn, signOut, useSession } from 'next-auth/react';
 
 const Signin: NextPage = () => {
-  const [session, loading] = useSession();
+  const { data: session } = useSession();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -44,7 +44,7 @@ const Signin: NextPage = () => {
         <Button onClick={handleSignin}>회원가입</Button>
       </div>
 
-      {session && !loading && (
+      {session && (
         <>
           <div style={{ marginBottom: '10px' }}>{session.user!.email}</div>
           <div>

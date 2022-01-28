@@ -1,5 +1,5 @@
 import type { GetServerSidePropsContext, NextPage } from 'next';
-import { getSession } from 'next-auth/client';
+import { getSession } from 'next-auth/react';
 import Link from 'next/link';
 
 const Home: NextPage = () => {
